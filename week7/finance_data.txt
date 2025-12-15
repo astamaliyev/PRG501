@@ -1,0 +1,3 @@
+Expense|car lease|transportation|1000.0|2025-12-14
+Income|job|1123.0
+Income|stocks|1000.0
