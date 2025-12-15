@@ -151,7 +151,6 @@ class FinanceManager(tk.Tk):
                 "File loading error", "Failed to load incomes and expenses from file"
             )
 
-        # UI state vars
         self.total_income_var = tk.StringVar(value="0.00")
         self.total_expenses_var = tk.StringVar(value="0.00")
         self.balance_var = tk.StringVar(value="0.00")
@@ -165,17 +164,14 @@ class FinanceManager(tk.Tk):
         top.pack()
         forms = ttk.Frame(top)
         forms.pack()
-
         self._build_income_form(forms).pack(
             side="left", fill="x", expand=True, padx=(0, 8)
         )
         self._build_expense_form(forms).pack(
             side="left", fill="x", expand=True, padx=(8, 0)
         )
-
         mid = ttk.Frame(self, padding=(10, 0, 10, 10))
         mid.pack(fill="both", expand=True)
-
         self._build_income_list(mid).pack(
             side="left", fill="both", expand=True, padx=(0, 8)
         )
@@ -187,10 +183,8 @@ class FinanceManager(tk.Tk):
 
     def _build_income_form(self, parent):
         box = ttk.LabelFrame(parent, padding=10)
-
         self.income_source = tk.StringVar()
         self.income_amount = tk.StringVar()
-
         ttk.Label(box, text="Source").grid(row=0, column=0, sticky="e", padx=5, pady=4)
         ttk.Entry(box, textvariable=self.income_source, width=24).grid(
             row=0, column=1, sticky="w", padx=5, pady=4
@@ -239,12 +233,10 @@ class FinanceManager(tk.Tk):
         ttk.Button(box, text="Add Expense", command=self.add_expense).grid(
             row=4, column=0, columnspan=3, pady=(8, 0)
         )
-
         return box
 
     def _build_income_list(self, parent):
         box = ttk.LabelFrame(parent, text="Income", padding=10)
-
         self.income_list = tk.Listbox(box)
         self.income_list.pack(side="left", fill="both", expand=True)
         btns = ttk.Frame(box)
