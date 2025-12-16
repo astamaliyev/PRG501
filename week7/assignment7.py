@@ -206,6 +206,18 @@ class FinanceManager(tk.Tk):
         self.expense_category = tk.StringVar()
         self.expense_amount = tk.StringVar()
         self.expense_date = tk.StringVar(value=datetime.today().strftime("%Y-%m-%d"))
+        self.expense_categories = [
+            "Housing",
+            "Utilities",
+            "Food",
+            "Transportation",
+            "Healthcare",
+            "Insurance",
+            "Personal & Lifestyle",
+            "Debt & Financial",
+            "Entertainment & Recreation",
+            "Savings & Investments"
+        ]
 
         ttk.Label(box, text="Description").grid(
             row=0, column=0, sticky="e", padx=5, pady=4
@@ -213,12 +225,9 @@ class FinanceManager(tk.Tk):
         ttk.Entry(box, textvariable=self.expense_description, width=24).grid(
             row=0, column=1, sticky="w", padx=5, pady=4
         )
-        ttk.Label(box, text="Category").grid(
-            row=1, column=0, sticky="e", padx=5, pady=4
-        )
-        ttk.Entry(box, textvariable=self.expense_category, width=24).grid(
-            row=1, column=1, sticky="w", padx=5, pady=4
-        )
+        cb = ttk.Combobox(box, values=self.expense_categories, textvariable=self.expense_category)
+        cb.set(self.expense_categories[0])
+        cb.grid(row=1, column=1, sticky="w", padx=5, pady=4)
         ttk.Label(box, text="Amount").grid(row=2, column=0, sticky="e", padx=5, pady=4)
         ttk.Entry(box, textvariable=self.expense_amount, width=12).grid(
             row=2, column=1, sticky="w", padx=5, pady=4
@@ -306,7 +315,7 @@ class FinanceManager(tk.Tk):
 
     def _reset_expense_form(self):
         self.expense_description.set("")
-        self.expense_category.set("")
+        self.expense_category.set(self.expense_categories[0])
         self.expense_amount.set("")
         self.expense_date.set(datetime.today().strftime("%Y-%m-%d"))
 
