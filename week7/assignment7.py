@@ -11,6 +11,8 @@ class DataHandler:
         self.expenses = []
         self.files_loaded = True
         try:
+            # if loading from file failed, initialize everything to empty
+            # to avoid crashing the programm
             self.load_from_file()
         except Exception:
             self.incomes = []
@@ -82,6 +84,8 @@ class DataHandler:
             f.writelines(income_lines)
 
     def load_from_file(self):
+        # JSON is primary source of data
+        # text is a fallback
         try:
             with open("finance_data.json", "r") as f:
                 data = json.load(f)
@@ -132,6 +136,7 @@ def parse_date(text: str) -> str:
     try:
         text = text.strip()
         if not text:
+            # use toda's date by default
             return datetime.today().strftime("%Y-%m-%d")
         datetime.strptime(text, "%Y-%m-%d")
         return text
@@ -225,8 +230,9 @@ class FinanceManager(tk.Tk):
         ttk.Entry(box, textvariable=self.expense_description, width=24).grid(
             row=0, column=1, sticky="w", padx=5, pady=4
         )
+        ttk.Label(box, text="Category").grid(row=1, column=0, sticky="e", padx=5, pady=4)
         cb = ttk.Combobox(box, values=self.expense_categories, textvariable=self.expense_category)
-        cb.set(self.expense_categories[0])
+        cb.set(self.expense_categories[0])  # Initialize category so it's visible
         cb.grid(row=1, column=1, sticky="w", padx=5, pady=4)
         ttk.Label(box, text="Amount").grid(row=2, column=0, sticky="e", padx=5, pady=4)
         ttk.Entry(box, textvariable=self.expense_amount, width=12).grid(
@@ -344,6 +350,7 @@ class FinanceManager(tk.Tk):
         self._process_expense_change()
 
     def _process_income_change(self):
+        # delete evrything from UI and re-populate from self.data
         self.income_list.delete(0, tk.END)
         self.income_list.insert(tk.END, "Income Source  |  Amount")
         for i in self.data.incomes:
@@ -351,6 +358,7 @@ class FinanceManager(tk.Tk):
         self._process_totals()
 
     def _process_expense_change(self):
+        # delete evrything from UI and re-populate from self.data
         self.expense_list.delete(0, tk.END)
         self.expense_list.insert(tk.END, "Date  |  Description  |  Category  |  Amount")
         for e in self.data.expenses:
